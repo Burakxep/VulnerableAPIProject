@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "XKILxROFwndTH1oRLayR0Ctjs/oI4H8qd2o4oKlaPRA=",
+  "Source": "VulnerableAPIProject",
+  "BasePath": "_content/VulnerableAPIProject",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
