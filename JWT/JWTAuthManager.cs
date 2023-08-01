@@ -74,7 +74,26 @@ namespace VulnerableAPIProject.JWT
             }
         }
 
+        public string TakeRolefromJWT(string token)
+        {
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+                var JWTClaims = handler.ReadJwtToken(token).Claims;
+                var role = JWTClaims.FirstOrDefault(r => r.Type == "Role").Value;
 
+                return role;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        internal object TakeEmailFromJWT(string v)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     } 

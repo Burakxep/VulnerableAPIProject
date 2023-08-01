@@ -10,6 +10,7 @@ using VulnerableAPIProject.Entities.Base;
 using VulnerableAPIProject.Data;
 using Microsoft.EntityFrameworkCore;
 using VulnerableAPIProject.JWT;
+using System.Text.RegularExpressions;
 
 namespace VulnerableAPIProject.Controllers
 {
@@ -64,6 +65,12 @@ namespace VulnerableAPIProject.Controllers
                 lastName = request.lastName,
                 password = request.password
             };
+            
+           /* if(request.password != Regex.IsMatch("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"))
+            {
+                return BadRequest("Password needs to have at least one uppercase,one lowercase letter, a minimum of" +
+                    " 8 characters, one number and one special character.");
+            } */
             _accountRepo.CreateAccount(tmp);
 
 
