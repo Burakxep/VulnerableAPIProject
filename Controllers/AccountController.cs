@@ -55,8 +55,6 @@ namespace VulnerableAPIProject.Controllers
                 return BadRequest("The email address which you provided is used by another user.");
             }
 
-            // strong password required
-
             var tmp = new Account()
             {
                 email = request.email,
@@ -80,7 +78,10 @@ namespace VulnerableAPIProject.Controllers
             {
                 return BadRequest("User not found.");
             }
-            return Ok(account);   //OLASI BROKEN AUTHENTICATION HATASI
+
+            var token = _jwtAuthManager.GenerateTokens(account);
+            return Ok(token);   
+
         }
 
 
