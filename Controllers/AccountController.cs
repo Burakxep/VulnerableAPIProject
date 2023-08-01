@@ -71,7 +71,7 @@ namespace VulnerableAPIProject.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "User, admin")]
         [HttpGet]
         public ActionResult GetAccount([FromQuery] int id)
         {
@@ -85,7 +85,7 @@ namespace VulnerableAPIProject.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = "User , admin")]
         [HttpDelete]
         public ActionResult DeleteAccount([FromQuery] DeleteARequest request)
         {

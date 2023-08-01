@@ -30,6 +30,7 @@ namespace VulnerableAPIProject.JWT
                     new Claim(ClaimTypes.NameIdentifier, account.firstName),
                     new Claim(ClaimTypes.Email, account.email),
                     new Claim(ClaimTypes.Role, account.role),
+                    new Claim(ClaimTypes.Authentication, account.password)
                 }),
 
                 Expires = DateTime.UtcNow.AddHours(1),
