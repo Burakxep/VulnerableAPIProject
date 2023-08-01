@@ -33,10 +33,7 @@ namespace VulnerableAPIProject.Repository.Base
         {
             var account =  _context.Account.Where(a => a.email == email && a.password == password).FirstOrDefault();
 
-         /*  if (account == null)
-            {
-                return new Account() { };
-            }  */
+
             return account;
 
         }
@@ -44,11 +41,7 @@ namespace VulnerableAPIProject.Repository.Base
         public Account GetAccountByMail(string email)
         {
             var account = _context.Account.Where(a =>a.email == email).FirstOrDefault();
-            /*
-           if(account == null)
-            {
-                return new Account() { };
-            } */
+
                 return account;
         }
 

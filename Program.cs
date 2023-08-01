@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -9,10 +10,11 @@ using VulnerableAPIProject.JWT;
 using VulnerableAPIProject.Repository.Base;
 
 var builder = WebApplication.CreateBuilder(args);
+var settings = builder.Configuration.GetSection("JWTSettings").Get<JWTSettings>();
 
 // Add services to the container.
 
-/* builder.Services.AddAuthentication(x =>
+ builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -26,21 +28,21 @@ var builder = WebApplication.CreateBuilder(args);
         ValidateAudience = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration.GetSection("JWTSettings:Token").Value,
-        ValidAudience = builder.Configuration.GetSection("JWTSettings:Audience").Value,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("JWTSettings:Key").Value))
+        ValidIssuer = settings.Issuer,
+        ValidAudience = settings.Audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(settings.Key))
 
     };
-}); */
+}); 
 
 builder.Services.AddControllers();
 builder.Services.AddTransient<Seed>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
- /* builder.Services.Configure<JWTConfig>(builder.Configuration.GetSection(nameof(JWTConfig)));
-builder.Services.AddScoped<IJWTConfig>(sp => sp.GetRequiredService<IOptions<JWTConfig>>().Value);
-builder.Services.AddScoped<JWTAuthManager>(); */
+builder.Services.Configure<JWTSettings>(builder.Configuration.GetSection(nameof(JWTSettings)));
+builder.Services.AddScoped<IJWTSettings>(sp => sp.GetRequiredService<IOptions<JWTSettings>>().Value);
+builder.Services.AddScoped<JWTAuthManager>(); 
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IAccountRepo, AccountRepo>();

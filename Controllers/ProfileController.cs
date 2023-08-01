@@ -33,6 +33,10 @@ namespace VulnerableAPIProject.Controllers
         [HttpGet]
         public ActionResult GetProfile([FromQuery] string email)
         {
+            // input validation
+            // dışarıdan email gelirse
+            // regex ile email pattern kontrol edilece
+            // eğer doğru ise akış devam edilecek diper türlü geçerli email giriniz
             var profile = _profileRepo.GetProfile(email);
             
 

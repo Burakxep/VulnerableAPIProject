@@ -5,15 +5,16 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using VulnerableAPIProject.Entities.Base;
+using VulnerableAPIProject.JWT;
 
 
 namespace VulnerableAPIProject.JWT
 {
      public class JWTAuthManager
     {
-        private readonly IJWTConfig _config;
+        private readonly IJWTSettings _config;
 
-        public JWTAuthManager(IJWTConfig config)
+        public JWTAuthManager(IJWTSettings config)
         {
             _config = config;
         }

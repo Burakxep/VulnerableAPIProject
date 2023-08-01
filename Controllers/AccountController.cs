@@ -19,14 +19,14 @@ namespace VulnerableAPIProject.Controllers
     {
         private readonly IAccountRepo _accountRepo;
         private readonly IMapper _mapper;
-      //  private readonly JWTAuthManager _jwtAuthManager;
+        private readonly JWTAuthManager _jwtAuthManager;
 
 
-        public AccountController(IAccountRepo accountRepo, IMapper mapper /*, JWTAuthManager jwtAuthManager */)
+        public AccountController(IAccountRepo accountRepo, IMapper mapper , JWTAuthManager jwtAuthManager )
         {
             _accountRepo = accountRepo;
             _mapper = mapper;
-       //     _jwtAuthManager = jwtAuthManager;
+            _jwtAuthManager = jwtAuthManager;
 
         }
 
@@ -39,7 +39,7 @@ namespace VulnerableAPIProject.Controllers
             {
                 return BadRequest("User not found.");
             }
-          //  var token = _jwtAuthManager.GenerateTokens(account);
+           var token = _jwtAuthManager.GenerateTokens(account);
 
             return Ok("You have logged in as: " + request.email);
         }
@@ -55,6 +55,7 @@ namespace VulnerableAPIProject.Controllers
                 return BadRequest("The email address which you provided is used by another user.");
             }
 
+            // strong password required
 
             var tmp = new Account()
             {
