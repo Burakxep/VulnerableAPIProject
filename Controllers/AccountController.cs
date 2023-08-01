@@ -71,7 +71,7 @@ namespace VulnerableAPIProject.Controllers
         }
 
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public ActionResult GetAccount([FromQuery] int id)
         {
@@ -80,11 +80,12 @@ namespace VulnerableAPIProject.Controllers
             {
                 return BadRequest("User not found.");
             }
-            return Ok(account);   //OLASI BROKEN AUTHENTICATION HATASI
+            var token = _jwtAuthManager.GenerateTokens(account);
+            return Ok(token);
         }
 
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpDelete]
         public ActionResult DeleteAccount([FromQuery] DeleteARequest request)
         {
