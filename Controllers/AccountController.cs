@@ -19,14 +19,13 @@ namespace VulnerableAPIProject.Controllers
     {
         private readonly IAccountRepo _accountRepo;
         private readonly IMapper _mapper;
-      //  private readonly JWTAuthManager _jwtAuthManager;
+      
 
 
-        public AccountController(IAccountRepo accountRepo, IMapper mapper /*, JWTAuthManager jwtAuthManager */)
+        public AccountController(IAccountRepo accountRepo, IMapper mapper )
         {
             _accountRepo = accountRepo;
             _mapper = mapper;
-       //     _jwtAuthManager = jwtAuthManager;
 
         }
 
@@ -39,7 +38,6 @@ namespace VulnerableAPIProject.Controllers
             {
                 return BadRequest("User not found.");
             }
-          //  var token = _jwtAuthManager.GenerateTokens(account);
 
             return Ok("You have logged in as: " + request.email);
         }
@@ -79,7 +77,7 @@ namespace VulnerableAPIProject.Controllers
             {
                 return BadRequest("User not found.");
             }
-            return Ok(account);   //OLASI BROKEN AUTHENTICATION HATASI
+            return Ok(account);   
         }
 
 
