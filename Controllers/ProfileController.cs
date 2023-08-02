@@ -8,6 +8,7 @@ using VulnerableAPIProject.Dto;
 using VulnerableAPIProject.Dto.Profile;
 using VulnerableAPIProject.Entities.Base;
 using VulnerableAPIProject.Dto.Account;
+using VulnerableAPIProject.JWT;
 
 namespace VulnerableAPIProject.Controllers
 
@@ -20,24 +21,22 @@ namespace VulnerableAPIProject.Controllers
         private readonly IProfileRepo _profileRepo;
         private readonly IMapper _mapper;
         private readonly IAccountRepo _accountRepo;
+        private readonly JWTAuthManager _jwtAuthManager;
 
-        public ProfileController(IProfileRepo profileRepo, IMapper mapper, IAccountRepo accountRepo)
+        public ProfileController(IProfileRepo profileRepo, IMapper mapper, IAccountRepo accountRepo, JWTAuthManager jwtAuthManager)
         {
             _profileRepo = profileRepo;
             _mapper = mapper;
             _accountRepo = accountRepo;
+            _jwtAuthManager = jwtAuthManager;
         }
 
 
-        [Authorize(Roles = "User , admin")] // roleme
+        [Authorize(Roles = "User , admin")] 
         [HttpGet]
         public ActionResult GetProfile([FromQuery] string email)
         {
 
-            // input validation
-            // dışarıdan email gelirse
-            // regex ile email pattern kontrol edilece
-            // eğer doğru ise akış devam edilecek diper türlü geçerli email giriniz
             var profile = _profileRepo.GetProfile(email);
             
 
@@ -51,14 +50,19 @@ namespace VulnerableAPIProject.Controllers
 
 
 
-        [Authorize(Roles = "User, admin")] // roleme
+        [Authorize(Roles = "User, admin")] 
         [HttpPost]
         public ActionResult CreateProfile([FromBody] ProfileRequest request , [FromQuery] MailCheck check)
         {
 
             var profile =  _profileRepo.GetProfile(request.email);
             var account = _accountRepo.GetAccountByMail(check.email);
-            
+
+            var email = _jwtAuthManager.TakeEmailfromJWT(Request.Headers["Authorization"].ToString().Split(" ")[1]);
+            if (email != check.email)
+            {
+                return BadRequest("Please enter your email.");
+            }
 
             if (profile == null && account != null)
             {
@@ -74,7 +78,6 @@ namespace VulnerableAPIProject.Controllers
            else return BadRequest();
         }
         
-        // broken authenttication
         [Authorize(Roles = "admin")]
         [HttpDelete]
         public ActionResult DeleteProfile([FromQuery] DeleteRequest request)
