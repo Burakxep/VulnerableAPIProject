@@ -23,6 +23,7 @@ namespace VulnerableAPIProject.Repository.Base
             return account;
         }
 
+
         public Account GetAccountbyIdnMail(int id ,string mail)
         {
             var account = _context.Account.Where(a => a.Id == id && a.email == mail).FirstOrDefault();

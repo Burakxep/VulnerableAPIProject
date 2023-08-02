@@ -29,10 +29,11 @@ namespace VulnerableAPIProject.Controllers
         }
 
 
-        [AllowAnonymous]
+        [Authorize(Roles = "User , admin")] // roleme
         [HttpGet]
         public ActionResult GetProfile([FromQuery] string email)
         {
+
             // input validation
             // dışarıdan email gelirse
             // regex ile email pattern kontrol edilece
@@ -50,7 +51,7 @@ namespace VulnerableAPIProject.Controllers
 
 
 
-        [AllowAnonymous]
+        [Authorize(Roles = "User, admin")] // roleme
         [HttpPost]
         public ActionResult CreateProfile([FromBody] ProfileRequest request , [FromQuery] MailCheck check)
         {
@@ -73,7 +74,8 @@ namespace VulnerableAPIProject.Controllers
            else return BadRequest();
         }
         
-        [AllowAnonymous]
+        // broken authenttication
+        [Authorize(Roles = "admin")]
         [HttpDelete]
         public ActionResult DeleteProfile([FromQuery] DeleteRequest request)
         {
@@ -86,9 +88,7 @@ namespace VulnerableAPIProject.Controllers
             }
             return BadRequest("Profile not found");
 
-
         }
-
         
     }
 

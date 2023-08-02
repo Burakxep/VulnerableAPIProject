@@ -43,7 +43,7 @@ namespace VulnerableAPIProject.Controllers
             
             var token = _jwtAuthManager.GenerateTokens(account);
 
-            return Ok(token);
+            return Ok("You have been logged in as: " + request.email + " Your token is: " + token);
         }
 
         [AllowAnonymous]
@@ -90,8 +90,13 @@ namespace VulnerableAPIProject.Controllers
             {
                 return BadRequest("User not found.");
             }
+            
+            // jwt email
+            // email -> id 
+            // if account.id == dışarıdan_id mi ? | IDOR solution
+
             var token = _jwtAuthManager.GenerateTokens(account);
-            return Ok(token);
+            return Ok("First name: " + account.firstName +  " Last name: " + account.lastName + " Email: "+account.email);
         }
 
 
