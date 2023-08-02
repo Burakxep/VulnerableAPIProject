@@ -29,7 +29,8 @@ namespace VulnerableAPIProject.JWT
 
                     new Claim(ClaimTypes.NameIdentifier, account.firstName),
                     new Claim(ClaimTypes.Email, account.email),
-                    new Claim(ClaimTypes.Role, account.role)
+                    new Claim(ClaimTypes.Role, account.role),
+                    
                 }),
 
                 Expires = DateTime.UtcNow.AddHours(1),
@@ -89,10 +90,7 @@ namespace VulnerableAPIProject.JWT
             }
         }
 
-        internal object TakeEmailFromJWT(string v)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 
     } 

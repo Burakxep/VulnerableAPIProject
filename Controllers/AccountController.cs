@@ -83,17 +83,22 @@ namespace VulnerableAPIProject.Controllers
 
         [Authorize(Roles ="User, admin")]
         [HttpGet]
-        public ActionResult GetAccount([FromQuery] int id)
+        public ActionResult GetAccount([FromQuery] MailCheck check)
         {
-            var account = _accountRepo.GetAccount(id);
+
+            var account = _accountRepo.GetAccountByMail(check.email);
             if (account == null)
             {
                 return BadRequest("User not found.");
             }
-            
-            // jwt email
-            // email -> id 
-            // if account.id == dışarıdan_id mi ? | IDOR solution
+
+            var email = _jwtAuthManager.TakeEmailfromJWT(Request.Headers["Authorization"].ToString().Split(" ")[1]);
+            if (email != check.email)
+            {
+                return BadRequest("Please enter your email.");
+            }
+
+
 
             var token = _jwtAuthManager.GenerateTokens(account);
             return Ok("First name: " + account.firstName +  " Last name: " + account.lastName + " Email: "+account.email);
@@ -113,9 +118,6 @@ namespace VulnerableAPIProject.Controllers
             }
 
             return BadRequest("User not found.");
-
-
-
 
 
         }
