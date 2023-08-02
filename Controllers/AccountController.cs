@@ -40,9 +40,10 @@ namespace VulnerableAPIProject.Controllers
             {
                 return BadRequest("User not found.");
             }
-           var token = _jwtAuthManager.GenerateTokens(account);
+            
+            var token = _jwtAuthManager.GenerateTokens(account);
 
-            return Ok("You have logged in as: " + request.email);
+            return Ok(token);
         }
 
         [AllowAnonymous]
@@ -56,7 +57,6 @@ namespace VulnerableAPIProject.Controllers
                 return BadRequest("The email address which you provided is used by another user.");
             }
 
-            // strong password required
 
             var tmp = new Account()
             {
@@ -73,6 +73,7 @@ namespace VulnerableAPIProject.Controllers
                 return BadRequest("Password needs to have at least one uppercase,one lowercase letter, a minimum of" +
                     " 8 characters, one number and one special character.");
             } 
+
             _accountRepo.CreateAccount(tmp);
 
 
@@ -80,7 +81,7 @@ namespace VulnerableAPIProject.Controllers
         }
 
 
-        [Authorize(Roles = "User, admin")]
+        [Authorize(Roles ="User, admin")]
         [HttpGet]
         public ActionResult GetAccount([FromQuery] int id)
         {
@@ -94,7 +95,7 @@ namespace VulnerableAPIProject.Controllers
         }
 
 
-        [Authorize(Roles = "User , admin")]
+        [Authorize(Roles = "admin")]
         [HttpDelete]
         public ActionResult DeleteAccount([FromQuery] DeleteARequest request)
         {
