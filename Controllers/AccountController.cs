@@ -63,14 +63,16 @@ namespace VulnerableAPIProject.Controllers
                 email = request.email,
                 firstName = request.firstName,
                 lastName = request.lastName,
-                password = request.password
+                password = request.password 
             };
-            
-           /* if(request.password != Regex.IsMatch("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$"))
+
+            string pattern = ("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
+            bool isMatch = Regex.IsMatch(request.password, pattern);
+            if(isMatch == false)
             {
                 return BadRequest("Password needs to have at least one uppercase,one lowercase letter, a minimum of" +
                     " 8 characters, one number and one special character.");
-            } */
+            } 
             _accountRepo.CreateAccount(tmp);
 
 
