@@ -102,7 +102,7 @@ namespace VulnerableAPIProject.Controllers
 
             var token = _jwtAuthManager.GenerateTokens(account);
             return Ok("First name: " + account.firstName +  " Last name: " + account.lastName + " Email: "+account.email 
-                + " Password: " + account.password + " Id: " + account.Id);
+                + " Password: " + account.password);
         }
 
 
